@@ -1,0 +1,97 @@
+#include <iostream>;
+using namespace std;
+
+
+struct ListNode {
+     int val;
+     ListNode *next;
+     ListNode(int x) : val(x), next(NULL) {}
+};
+
+class Solution {
+public:
+	ListNode *addTwoNumbers(ListNode *l1, ListNode *l2) {
+		ListNode *p1 = l1; 
+		ListNode *p1_start = l1;
+		ListNode *p2 = l2;
+		ListNode *p2_start = l2;
+		ListNode *res = new ListNode(0);
+		//find out the length of each linkedlist
+		int len_a = 1;
+		int len_b = 1;
+		while (p1->next != NULL)
+		{
+			len_a++;
+			p1 = p1->next;
+		}
+		while (p2->next!=NULL)
+		{
+			len_b++;
+			p2 = p2->next;
+		}
+		p1 = p1_start;
+		p2 = p2_start;
+		if (len_a > len_b){
+			p2 = new ListNode(0);
+			p2_start = p2;
+			for (int i = 0; i < len_a - len_b - 1; i++){
+				p2->next = new ListNode(0);  //To add the '0's in front of the shorter number
+				p2 = p2->next;
+			}
+			p2->next = l2;
+		}
+		else if (len_a<len_b){
+			p1 = new ListNode(0);
+			p1_start = p1;
+			for (int i = 0; i < len_b - len_a - 1; i++){
+				p1->next = new ListNode(0);
+				p1 = p1->next;
+			}
+				p1->next = l1;
+			}
+		//calculate using recursion
+		res->next = addEqualLengthNumbers(p1_start, p2_start);
+		res->val = carry;
+		if (res->val == 0)
+			return res->next;
+		else
+			return res;
+	}
+	ListNode *addEqualLengthNumbers(ListNode *l1, ListNode *l2) {
+		ListNode *digit_res = new ListNode(0);   //a node of a certain digit
+		if (l1->next) //if it is the last node
+			digit_res->next = addEqualLengthNumbers(l1->next, l2->next);
+		digit_res->val = (l1->val + l2->val + carry) % 10;
+		carry = (l1->val + l2->val + carry) / 10;
+		return digit_res;
+	}
+
+	int carry = 0;
+};
+
+void main(){
+	ListNode *num11 = new ListNode(2);
+	ListNode num12(4);
+	ListNode num13(3);
+	ListNode num14(5);
+
+	ListNode *num21 = new ListNode(1);
+	ListNode num22(2);
+	ListNode num23(9);
+	
+	num11->next = &num12;
+	num12.next = &num13;
+	num13.next = &num14;
+
+	num21->next = &num22;
+	num22.next = &num23;
+
+	Solution mysol;
+	ListNode *res;
+	res = mysol.addTwoNumbers(num11, num21);
+
+	while (res!= NULL){
+		cout << res->val << " ";
+		res = res->next;
+	}
+}
