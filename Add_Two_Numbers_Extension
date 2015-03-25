@@ -1,3 +1,10 @@
+/*
+This is an interesting mistake, which leads to the increase of the difficulty of the problem.
+I was thinking that the end of the list was the lowest digit.
+Since the list is singly linked, I have to use recursion to solve the problem.
+Try this and propose better solutions. :)
+*/
+
 #include <iostream>;
 using namespace std;
 
